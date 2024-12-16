@@ -1,27 +1,36 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    static class Homework {
+        int deadline;
+        int score;
 
-        // 입력 받기
-        int n = scanner.nextInt();
-        List<Task> tasks = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int d = scanner.nextInt();
-            int w = scanner.nextInt();
-            tasks.add(new Task(d, w));
+        Homework(int deadline, int score) {
+            this.deadline = deadline;
+            this.score = score;
+        }
+    }
+
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+
+        List<Homework> homeworks = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            String[] input = br.readLine().split(" ");
+            int d = Integer.parseInt(input[0]);
+            int w = Integer.parseInt(input[1]);
+            homeworks.add(new Homework(d, w));
         }
 
-        // 1. 마감일 기준으로 정렬
-        tasks.sort(Comparator.comparingInt(task -> task.deadline));
+        homeworks.sort(Comparator.comparingInt(hw -> hw.deadline));
 
-        // 2. 최소 힙을 사용하여 최대 점수 계산
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        for (Task task : tasks) {
-            minHeap.add(task.score); // 힙에 점수를 추가
+        for (Homework hw : homeworks) {
+            minHeap.add(hw.score);
             // 힙 크기가 마감일을 초과하면, 최소 점수를 제거
-            if (minHeap.size() > task.deadline) {
+            if (minHeap.size() > hw.deadline) {
                 minHeap.poll();
             }
         }
@@ -34,15 +43,5 @@ public class Main {
 
         // 결과 출력
         System.out.println(maxScore);
-    }
-
-    // Task 클래스 정의
-    static class Task {
-        int deadline, score;
-
-        Task(int deadline, int score) {
-            this.deadline = deadline;
-            this.score = score;
-        }
     }
 }
