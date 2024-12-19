@@ -17,8 +17,6 @@ class Solution {
         for (Integer key : map.keySet()) {
             pq.add(map.get(key));
         }
-        // printmap(map);
-        // printpq(pq);
         
         while(!pq.isEmpty()){
             int p = pq.poll();
@@ -31,16 +29,5 @@ class Solution {
         }
         
         return answer;
-    }
-    private void printpq(PriorityQueue<Integer> pq){
-        while(!pq.isEmpty()){
-            System.out.print(pq.poll()+" ");
-        }
-        System.out.println();
-    }
-    private void printmap(HashMap<Integer, Integer> map){
-        for (Integer key : map.keySet()) {
-            System.out.println(key+" : "+map.get(key));
-        }
     }
 }
