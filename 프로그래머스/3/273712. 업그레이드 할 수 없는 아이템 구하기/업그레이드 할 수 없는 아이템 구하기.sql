@@ -1,0 +1,10 @@
+-- 코드를 작성해주세요
+
+select ITEM_ID,ITEM_NAME,RARITY
+FROM ITEM_INFO
+WHERE ITEM_NAME NOT IN
+    (select a.ITEM_NAME
+    from ITEM_INFO a
+    join ITEM_TREE b
+    on a.ITEM_ID = b.PARENT_ITEM_ID)
+ORDER BY ITEM_ID DESC;
