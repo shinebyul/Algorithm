@@ -1,30 +1,29 @@
 import java.util.*;
 
 class Solution {
-    int[] visited;
-    Queue<Integer> queue = new LinkedList<>();
     int max;
     
     public int solution(int[] info, int[][] edges) {
         
-        boolean visit[] = new boolean[info.length];
         int sheep = 0;
         int wolf = 0;
         max = 0;
-        dfs(visit, 0, info, edges, sheep, wolf);
+        boolean visited[] = new boolean[info.length];
+        dfs(info, edges, visited, sheep, wolf, 0);
         
         return max;
     }
-    private void dfs(boolean[] visit, int root, int[] info, int[][] edges, int sheep, int wolf){
+    
+    private void dfs(int[] info, int[][] edges, boolean[] visited, int sheep, int wolf, int root){
 
-        visit[root] = true;
+        visited[root] = true;
         
-        if(info[root] == 0){
+        if(info[root] == 0){ // 양일 경우
             sheep++;
             if(sheep > max){
                 max = sheep;
             }
-        }else{
+        }else{ //늑대일 경우
             wolf++;
         }
         
@@ -33,14 +32,14 @@ class Solution {
         }
         
         for(int[] edge: edges){
-            int x = edge[0];
-            int y = edge[1];
-            if(visit[x] && !visit[y]) {
-                boolean[] next = new boolean[visit.length];
-                for (int i = 0; i < visit.length; i++) {
-                    next[i] = visit[i];
+            int parent = edge[0];
+            int child = edge[1];
+            if(visited[parent] && !visited[child]) {
+                boolean[] newVisited = new boolean[visited.length];
+                for (int i = 0; i < visited.length; i++) {
+                    newVisited[i] = visited[i];
                 }
-                dfs(next,y, info, edges, sheep, wolf);
+                dfs(info, edges, newVisited, sheep, wolf, child);
             }
         }
     }
