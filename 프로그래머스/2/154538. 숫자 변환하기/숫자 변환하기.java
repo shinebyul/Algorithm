@@ -1,35 +1,28 @@
 import java.util.*;
 
 class Solution {
-
     public int solution(int x, int y, int n) {
-        int count = 0;
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> visited = new HashSet<>();
-        queue.add(x);
-        visited.add(x);
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                int cur = queue.poll();
-                if (cur == y) {
-                    return count;
-                }
-                if (cur + n <= y && !visited.contains(cur + n)) {
-                    queue.add(cur + n);
-                    visited.add(cur + n);
-                }
-                if (cur * 2 <= y && !visited.contains(cur * 2)) {
-                    queue.add(cur * 2);
-                    visited.add(cur * 2);
-                }
-                if (cur * 3 <= y && !visited.contains(cur * 3)) {
-                    queue.add(cur * 3);
-                    visited.add(cur * 3);
-                }
+        int answer = -1;
+        Queue<int[]> queue = new ArrayDeque<>();
+        boolean[] visited = new boolean[y+1];
+        queue.add(new int[] {x,0});
+        while(!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            visited[cur[0]] = true;
+            if(cur[0] == y) {
+                answer = cur[1];
+                break;
             }
-            count++;
+            if(cur[0]*2 <= y && !visited[cur[0]*2]) {
+                queue.add(new int[] {cur[0]*2, cur[1]+1});
+            }
+            if(cur[0]*3 <= y && !visited[cur[0]*3]) {
+                queue.add(new int[] {cur[0]*3, cur[1]+1});
+            }
+            if(cur[0]+n <= y && !visited[cur[0]+n]) {
+                queue.add(new int[] {cur[0]+n, cur[1]+1});
+            }
         }
-        return -1;
+        return answer;
     }
 }
