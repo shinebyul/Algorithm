@@ -1,32 +1,17 @@
 import java.util.*;
-
 class Solution {
-    
     public int solution(int[][] targets) {
         int answer = 0;
         
-        // 1. 오름차순
-        // Arrays.sort(targets, Comparator.comparingInt(a -> a[0]));
-        Arrays.sort(targets, Comparator.comparingInt(a -> a[1]));
+        Arrays.sort(targets, Comparator.comparingInt(a->a[1]));
         
-        // 2. 하나씩 꺼내서 삭제
-        answer = yogeuk(targets);
-        
-        return answer;
-    }
-    
-    private int yogeuk(int[][] targets){
-        int count = 0;
-        
-        int[] f = targets[0];
-        count++;
+        int range = targets[0][1];
+        int count=1;
         
         for(int i=1;i<targets.length;i++){
-            int[] s = targets[i];
-            
-            if(s[0]>=f[1]){
-                f=targets[i];
+            if(targets[i][0]>=range){
                 count++;
+                range = targets[i][1];
             }
         }
         
